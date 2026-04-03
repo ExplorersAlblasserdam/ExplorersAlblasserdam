@@ -154,14 +154,14 @@
 <!-- HET NIEUWE FORMULIER (4 STAPPEN) -->
 <div id="form-container" class="form-container">
   <div class="form-card">
-    <!-- De form tag opent hier -->
-    <form action="https://submit-form.com/iuKUYiFj1" method="POST">
+    
+    <!-- Formulier met ID voor het script -->
+    <form id="klusjes-form" action="https://submit-form.com/iuKUYiFj1" method="POST">
         
         <!-- Stap 1: Start -->
         <div class="form-step active" id="step1">
             <h2>KLUSJESACTIE DENEMARKEN <span style="color:#077840">DK</span></h2>
             <p>Wij sparen voor ons kamp naar Denemarken. In ruil voor een donatie komen wij langs om een klusje bij u te klaren. U bepaalt zelf het bedrag!</p>
-            <!-- type="button" voorkomt dat hij direct verzendt -->
             <button type="button" class="btn-green" onclick="nextStep(2)" style="padding: 20px;">Start Aanmelding</button>
             <a onclick="showPage('home')" class="btn-back">Terug naar start</a>
         </div>
@@ -170,11 +170,12 @@
         <div class="form-step" id="step2">
             <h3 style="color:#077840; margin-bottom:20px;">Wat kunnen we doen?</h3>
             <div style="border-top: 1px solid #eee; padding-top:20px;">
-                <!-- Gebruik name="categorie" om de keuze op te slaan -->
-                <button type="button" name="categorie" value="Tuinieren" class="optie-btn" onclick="nextStep(3)">🌲 Tuinieren</button>
-                <button type="button" name="categorie" value="Schoonmaken" class="optie-btn" onclick="nextStep(3)">🪄 Schoonmaken</button>
-                <button type="button" name="categorie" value="Boodschappen" class="optie-btn" onclick="nextStep(3)">🛒 Boodschappen</button>
-                <button type="button" name="categorie" value="Anders" class="optie-btn" onclick="nextStep(3)">✨ Iets anders...</button>
+                <!-- De buttons vullen een verborgen input 'klus_type' in via de JS functie -->
+                <input type="hidden" name="klus_type" id="klus_type_input">
+                <button type="button" class="optie-btn" onclick="selectKlus('Tuinieren')">🌲 Tuinieren</button>
+                <button type="button" class="optie-btn" onclick="selectKlus('Schoonmaken')">🪄 Schoonmaken</button>
+                <button type="button" class="optie-btn" onclick="selectKlus('Boodschappen')">🛒 Boodschappen</button>
+                <button type="button" class="optie-btn" onclick="selectKlus('Anders')">✨ Iets anders...</button>
             </div>
             <a onclick="nextStep(1)" class="btn-back" style="text-align: left;">← Vorige stap</a>
         </div>
@@ -182,7 +183,6 @@
         <!-- Stap 3: Details -->
         <div class="form-step" id="step3">
             <h3 style="color:#077840; margin-bottom:20px;">Details van de klus</h3>
-            <!-- Elk veld MOET een name hebben voor Formspark -->
             <textarea name="omschrijving" placeholder="Beschrijf de klus..."></textarea>
             <div class="row">
                 <input type="date" name="datum">
@@ -201,14 +201,56 @@
             <input type="text" name="naam" placeholder="Naam (Verplicht)" required>
             <input type="email" name="email" placeholder="E-mailadres" required>
             <input type="tel" name="telefoon" placeholder="Telefoonnummer">
-            
-            <!-- De laatste knop is type="submit" om de data echt te versturen -->
-            <button type="submit" class="btn-orange">Verstuur Aanmelding! 🚀</button>
+            <button type="button" class="btn-orange" onclick="verstuurFormulier()">Verstuur Aanmelding! 🚀</button>
         </div>
 
-    </form> <!-- De form tag sluit hier, na alle stappen -->
+    </form>
   </div>
 </div>
+
+<script>
+// Functie om de gekozen klus op te slaan en naar de volgende stap te gaan
+function selectKlus(waarde) {
+    document.getElementById('klus_type_input').value = waarde;
+    nextStep(3);
+}
+
+// De functie die alles op de achtergrond verstuurt naar Formspark
+function verstuurFormulier() {
+    const form = document.getElementById('klusjes-form');
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    fetch(form.action, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => {
+        if (response.ok) {
+            // Jouw eigen succesmelding
+            alert('Bedankt! Je aanmelding is succesvol verzonden. We nemen snel contact op! 🇩🇰');
+            
+            // Terug naar je home-sectie en reset het formulier
+            showPage('home'); 
+            form.reset();
+            
+            // Reset de visuele stappen naar stap 1 voor een volgende keer
+            document.querySelectorAll('.form-step').forEach(step => step.classList.remove('active'));
+            document.getElementById('step1').classList.add('active');
+        } else {
+            alert('Er ging iets mis bij het verzenden. Controleer of alle velden zijn ingevuld.');
+        }
+    })
+    .catch(error => {
+        alert('Netwerkfout. Controleer je internetverbinding.');
+        console.error(error);
+    });
+}
+</script>
 
 
 <script>
