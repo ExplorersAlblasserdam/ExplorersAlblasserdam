@@ -32,17 +32,24 @@
             60%, 100% { background-image: url('images/foto4.jpg'); } 
         }
 
-        /* ACTIE SECTIE (UIT JE SCREENSHOT) */
-        .actie-section { padding: 50px 20px; text-align: center; }
+                /* ACTIE SECTIE (UIT JE SCREENSHOT) */
+        .actie-section { padding: 50px 20px; text-align: center; overflow: hidden; } /* NU AANGEPAST */
         .actie-title { color: #077840; font-weight: 800; font-size: 28px; margin-bottom: 30px; letter-spacing: 1px; }
-        .actie-grid { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; }
-        .actie-card { background: white; width: 340px; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.05); text-align: left; }
-        .actie-card-empty { width: 340px; border: 2px dashed #ccc; border-radius: 20px; display: flex; align-items: center; justify-content: center; color: #999; font-weight: bold; background: rgba(255,255,255,0.5); }
+        .actie-grid { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; width: 100%; } /* NU AANGEPAST */
+        .actie-card { background: white; width: 340px; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.05); text-align: left; box-sizing: border-box; } /* NU AANGEPAST */
+        
+        /* NIEUW TOEGEVOEGD VOOR HET FORMULIER */
+        .signup-card { border: 2px dashed #ccc; background: #fdfdfd; box-sizing: border-box; }
+        .signup-input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; }
+        #thanks-msg { color: #1b5e20; font-weight: bold; font-size: 14px; text-align: center; margin-top: 10px; }
+        /* ---------------------------------- */
+
         .actie-banner { background: #ff7d31; color: white; padding: 12px; font-size: 13px; font-weight: bold; text-align: center; text-transform: uppercase; }
         .actie-content { padding: 30px; }
         .actie-content h3 { margin: 0 0 15px 0; color: #333; display: flex; align-items: center; gap: 10px; }
         .actie-content p { color: #777; font-size: 14px; line-height: 1.6; margin-bottom: 25px; }
         .aanmeld-btn { background: #1b5e20; color: white; border: none; padding: 14px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer; text-decoration: none; display: block; text-align: center; }
+
 
         /* FORMULIER STIJLING (EXACT VOLGENS SCREENSHOTS) */
         .form-container { display: none; padding: 60px 20px; min-height: 80vh; background: #f4f7f6; }
